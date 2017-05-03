@@ -25,7 +25,6 @@ func main() {
     res = qw.Search("114.114.114.114")
     fmt.Printf("IP: %s\nBegin: %s\nEnd: %s\nCountry: %s\nArea: %s\n", res.IP, res.Begin, res.End, res.Country, res.Area)
 
-	
 
 	// 下面开始加载 http 相关的服务
 	http.HandleFunc("/", findIP)
