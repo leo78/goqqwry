@@ -39,12 +39,12 @@ func main() {
 
 // findIP 查找 IP 地址的接口
 func findIP(w http.ResponseWriter, r *http.Request) {
-	res := NewResponse(w, r)
+	response := NewResponse(w, r)
 
 	ip := r.Form.Get("ip")
 
 	if ip == "" {
-		res.ReturnError(http.StatusBadRequest, 200001, "请填写 IP 地址")
+		response.ReturnError(http.StatusBadRequest, 200001, "请填写 IP 地址")
 		return
 	}
 
@@ -52,20 +52,20 @@ func findIP(w http.ResponseWriter, r *http.Request) {
 
 	qqWry := NewQQwry()
 
-	rs := map[string]ResultQQwry{}
+	results := map[string]ResultQQwry{}
 	if len(ips) > 0 {
 		for _, v := range ips {
-			resWry := &ResultQQwry{}
+			result := &ResultQQwry{}
 
-			qqwryRes = qw.Search(v)
+			wryRes = qw.Search(v)
 
-			resWry.IP = v
-			resWry.IPSegment = qqwryRes.Begin + "-" + qqwryRes.End
-			resWry.Address = qqwryRes.Country
-			
-			rs[v] = resWry
+			result.IP = v
+			result.IPSegment = wryRes.Begin + "-" + wryRes.End
+			result.Address = wryRes.Country
+
+			results[v] = result
 		}
 	}
 
-	res.ReturnSuccess(rs)
+	response.ReturnSuccess(results)
 }
