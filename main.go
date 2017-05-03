@@ -6,10 +6,11 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 	"runtime"
 )
 
-var QQWry qw
+var qw *qqwry.QQwry
 
 func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
@@ -49,18 +50,17 @@ func findIP(w http.ResponseWriter, r *http.Request) {
 
 	ips := strings.Split(ip, ",")
 
-	qqWry := NewQQwry()
-
 	results := map[string]ResultQQwry{}
 	if len(ips) > 0 {
 		for _, v := range ips {
-			result := &ResultQQwry{}
+			result := ResultQQwry{}
 
-			wryRes = qw.Search(v)
+			wryRes := qw.Search(v)
 
 			result.IP = v
 			result.IPSegment = wryRes.Begin + "-" + wryRes.End
 			result.Address = wryRes.Country
+			result.Area = wryRes.Area
 
 			results[v] = result
 		}
